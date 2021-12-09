@@ -1,6 +1,7 @@
 import 'package:centouro/pages/cadastrar_produto_page.dart';
 import 'package:centouro/pages/cadastro_page.dart';
 import 'package:centouro/pages/carrinho_page.dart';
+import 'package:centouro/pages/pedidos_page.dart';
 import 'package:centouro/pages/configuracoes_page.dart';
 import 'package:centouro/pages/produtos_page.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           ProdutoPage(),
           CarrinhoPage(),
+          PedidoPage(),
           ConfiguracoesPage(),
         ],
         onPageChanged: setPaginaAtual,
@@ -45,7 +47,10 @@ class _HomePageState extends State<HomePage> {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Todas'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_sharp), label: 'Carrinho'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart_sharp), label: 'Carrinho'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_bag_sharp), label: 'Pedidos'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Conta'),
         ],
         onTap: (pagina) {

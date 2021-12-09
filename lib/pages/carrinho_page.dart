@@ -1,6 +1,7 @@
 import 'package:centouro/pages/home_page.dart';
 import 'package:centouro/pages/produtos_page.dart';
 import 'package:centouro/repositories/carrinho_repository.dart';
+import 'package:centouro/repositories/pedido_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:centouro/models/produto.dart';
 import 'package:centouro/pages/cadastrar_produto_page.dart';
@@ -45,8 +46,7 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
                 color: Colors.lightBlue,
               ),
             ),
-            subtitle: Text(
-                real.format(listaCarrinho.lista[produto].price)),
+            subtitle: Text(real.format(listaCarrinho.lista[produto].price)),
             trailing: PopupMenuButton(
               icon: Icon(Icons.more_vert),
               itemBuilder: (context) => [
@@ -105,8 +105,11 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("Compra realizada com sucesso!")),
     );
+
     lista.forEach((produto) {
       Provider.of<CarrinhoRepository>(context, listen: false).remove(produto);
+      Provider.of<PedidoRepository>(context, listen: false)
+          .savePedido(lista, produto);
     });
   }
 

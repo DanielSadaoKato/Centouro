@@ -1,33 +1,27 @@
+import 'package:centouro/pages/cadastrar_produto_page.dart';
+import 'package:centouro/pages/camera_page.dart';
 import 'package:centouro/pages/home_page.dart';
 import 'package:centouro/repositories/carrinho_repository.dart';
+import 'package:centouro/repositories/pedido_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:centouro/models/produto.dart';
 import 'package:provider/provider.dart';
 
-class ProdutoDetalhesPage extends StatefulWidget {
+class ReclamacaoPage extends StatefulWidget {
   Produto produto;
 
-  ProdutoDetalhesPage({Key? key, required this.produto}) : super(key: key);
+  ReclamacaoPage({Key? key, required this.produto}) : super(key: key);
 
   @override
-  _ProdutoDetalhesPageState createState() => _ProdutoDetalhesPageState();
+  _ReclamacaoPageState createState() => _ReclamacaoPageState();
 }
 
-class _ProdutoDetalhesPageState extends State<ProdutoDetalhesPage> {
+class _ReclamacaoPageState extends State<ReclamacaoPage> {
   NumberFormat real = NumberFormat.currency(locale: 'pt_BR', name: 'R\$');
-  late CarrinhoRepository listaCarrinho;
+  late PedidoRepository listaCarrinho;
 
-  comprar() {
-    Navigator.pop(context);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Compra realizada com sucesso!')),
-    );
-  }
-
-  addCarrinho(CarrinhoRepository listaProdutos, Produto produto) {
-    listaProdutos.saveCarrinho(listaProdutos.lista, produto);
+  addCarrinho(PedidoRepository listaProdutos, Produto produto) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("Produto adicionado ao carrinho")),
     );
@@ -36,7 +30,7 @@ class _ProdutoDetalhesPageState extends State<ProdutoDetalhesPage> {
 
   @override
   Widget build(BuildContext context) {
-    listaCarrinho = Provider.of<CarrinhoRepository>(context);
+    listaCarrinho = Provider.of<PedidoRepository>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -44,7 +38,7 @@ class _ProdutoDetalhesPageState extends State<ProdutoDetalhesPage> {
           textAlign: TextAlign.center,
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: EdgeInsets.all(15),
         child: Column(
           children: [
@@ -54,8 +48,8 @@ class _ProdutoDetalhesPageState extends State<ProdutoDetalhesPage> {
                 children: [
                   Image(
                     image: NetworkImage(widget.produto.image),
-                    height: 300.0,
-                    width: 300.0,
+                    height: 80.0,
+                    width: 80.0,
                   ),
                 ],
               ),
@@ -70,7 +64,7 @@ class _ProdutoDetalhesPageState extends State<ProdutoDetalhesPage> {
                       fontWeight: FontWeight.w600,
                       letterSpacing: -1,
                       color: Colors.red[300],
-                      fontSize: 40,
+                      fontSize: 15,
                     ),
                   ),
                 ],
@@ -83,28 +77,59 @@ class _ProdutoDetalhesPageState extends State<ProdutoDetalhesPage> {
                 child: Text(
                   widget.produto.description,
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 12,
                     color: Colors.grey[600],
                     //backgroundColor: Colors.grey[200],
                   ),
                 ),
               ),
             ),
-            Container(
-              alignment: Alignment.bottomCenter,
-              margin: EdgeInsets.only(top: 12),
-              child: ElevatedButton(
-                onPressed: () {
-                  addCarrinho(
-                    listaCarrinho,
-                    widget.produto,
-                  );
+            Padding(
+              padding: EdgeInsets.only(top: 30, bottom: 30),
+              child: TextFormField(
+                // controller: descricao,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Descreva o seu problema com o produto',
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Informe a descricao corretamente!';
+                  }
+                  return null;
                 },
+              ),
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.camera_alt),
+              title: Text('Enviar foto do Produto'),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => CameraPage(),
+                  fullscreenDialog: true,
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 24),
+              child: OutlinedButton(
+                onPressed: () => {},
+                style: OutlinedButton.styleFrom(
+                  primary: Colors.red,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.shopping_cart_sharp),
-                    Text(' ADICIONAR NO CARRINHO'),
+                    Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text(
+                        'Enviar',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
                   ],
                 ),
               ),

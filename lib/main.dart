@@ -1,4 +1,5 @@
 import 'package:centouro/repositories/carrinho_repository.dart';
+import 'package:centouro/repositories/pedido_repository.dart';
 import 'package:centouro/repositories/produto_lista_repository.dart';
 import 'package:centouro/repositories/user_repository.dart';
 import 'package:centouro/services/auth_service.dart';
@@ -19,6 +20,11 @@ void main() async {
       ChangeNotifierProvider(create: (context) => ProdutoListaRepository()),
       ChangeNotifierProvider(
         create: (context) => CarrinhoRepository(
+          auth: context.read<AuthService>(),
+        ),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => PedidoRepository(
           auth: context.read<AuthService>(),
         ),
       ),

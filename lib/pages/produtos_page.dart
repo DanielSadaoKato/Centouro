@@ -20,16 +20,9 @@ class _ProdutoPageState extends State<ProdutoPage> {
   @override
   Widget build(BuildContext context) {
     listaProdutos = Provider.of<ProdutoListaRepository>(context);
-    //final tabela = ProdutoRepository.tabela;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Produtos'),
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: const Icon(Icons.add),
-        //     onPressed: () => cadastrarNovo(),
-        //   )
-        // ],
       ),
       body: ListView.separated(
         itemBuilder: (BuildContext context, int produto) {
