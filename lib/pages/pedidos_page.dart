@@ -49,7 +49,7 @@ class _PedidoPageState extends State<PedidoPage> {
             ),
             subtitle: Text(real.format(listaPedido.lista[produto].price)),
             trailing: PopupMenuButton(
-              icon: Icon(Icons.more_vert),
+              icon: Icon(Icons.warning_amber_sharp),
               itemBuilder: (context) => [
                 PopupMenuItem(
                   child: ListTile(

@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:camera/camera.dart';
 import 'package:centouro/pages/cadastrar_produto_page.dart';
 import 'package:centouro/pages/camera_page.dart';
 import 'package:centouro/pages/home_page.dart';
@@ -20,12 +23,24 @@ class ReclamacaoPage extends StatefulWidget {
 class _ReclamacaoPageState extends State<ReclamacaoPage> {
   NumberFormat real = NumberFormat.currency(locale: 'pt_BR', name: 'R\$');
   late PedidoRepository listaCarrinho;
+  XFile? arquivo;
 
   enviarFoto() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("Reclamação enviada com sucesso!")),
     );
     Navigator.pop(context);
+  }
+
+  selecionarArquivo() async {
+    final ImagePicker picker = ImagePicker();
+
+    try {
+      XFile? file = await picker.pickImage(source: ImageSource.gallery);
+      if (file != null) setState(() => arquivo = file);
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -111,6 +126,14 @@ class _ReclamacaoPageState extends State<ReclamacaoPage> {
                   fullscreenDialog: true,
                 ),
               ),
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.attach_file),
+              title: Text('Enviar arquivo'),
+              onTap: selecionarArquivo,
+              trailing:
+                  arquivo != null ? Image.file(File(arquivo!.path)) : null,
             ),
             Divider(),
             Padding(
