@@ -38,6 +38,7 @@ class ProdutoListaRepository extends ChangeNotifier {
           );
           lista.add(data);
         });
+        notifyListeners();
       }
   }
 }
