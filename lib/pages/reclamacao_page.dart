@@ -21,9 +21,9 @@ class _ReclamacaoPageState extends State<ReclamacaoPage> {
   NumberFormat real = NumberFormat.currency(locale: 'pt_BR', name: 'R\$');
   late PedidoRepository listaCarrinho;
 
-  addCarrinho(PedidoRepository listaProdutos, Produto produto) {
+  enviarFoto() {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Produto adicionado ao carrinho")),
+      SnackBar(content: Text("Reclamação enviada com sucesso!")),
     );
     Navigator.pop(context);
   }
@@ -116,7 +116,7 @@ class _ReclamacaoPageState extends State<ReclamacaoPage> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 24),
               child: OutlinedButton(
-                onPressed: () => {},
+                onPressed: () => {enviarFoto()},
                 style: OutlinedButton.styleFrom(
                   primary: Colors.red,
                 ),
